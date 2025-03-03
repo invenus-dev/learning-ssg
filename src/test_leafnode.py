@@ -21,5 +21,5 @@ class TestLeafNode(unittest.TestCase):
     
     def test_handle_no_value(self):
         with self.assertRaises(ValueError):
-            node = LeafNode("p", "")
+            node = LeafNode("p", None)
             node.to_html()
