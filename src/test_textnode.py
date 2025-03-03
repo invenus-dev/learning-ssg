@@ -31,29 +31,46 @@ class TestTextNode(unittest.TestCase):
 
     def test_text_node_to_html_node_normal(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.NORMAL))
-        self.assertEqual(node.to_html(), "Hello, World!")
+        self.assertEqual(node.tag, None)
+        self.assertEqual(node.value, "Hello, World!")
+        self.assertEqual(node.props, None)
 
     def test_text_node_to_html_node_bold(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.BOLD))
-        self.assertEqual(node.to_html(), "<b>Hello, World!</b>")
+        self.assertEqual(node.tag, "b")
+        self.assertEqual(node.value, "Hello, World!")
+        self.assertEqual(node.props, None)
     
     def test_text_node_to_html_node_code(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.CODE))
-        self.assertEqual(node.to_html(), "<code>Hello, World!</code>")
+        self.assertEqual(node.tag, "code")
+        self.assertEqual(node.value, "Hello, World!")
+        self.assertEqual(node.props, None)
     
     def test_text_node_to_html_node_link(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.LINK, "https://www.google.com"))
-        self.assertEqual(node.to_html(), '<a href="https://www.google.com">Hello, World!</a>')
+        self.assertEqual(node.tag, "a")
+        self.assertEqual(node.value, "Hello, World!")
+        self.assertEqual(node.props, {"href": "https://www.google.com"})
 
     def test_text_node_to_html_node_link_no_url(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.LINK))
-        self.assertEqual(node.to_html(), "Hello, World!")
+        self.assertEqual(node.tag, None)
+        self.assertEqual(node.value, "Hello, World!")
+        self.assertEqual(node.props, None)        
     
     def test_text_node_to_html_node_image(self):
         node = text_node_to_html_node(TextNode("Hello, World!", TextType.IMAGE, "https://www.google.com"))
-        self.assertEqual(node.to_html(), '<img src="https://www.google.com" alt="Hello, World!"></img>')
+        self.assertEqual(node.tag, "img")
+        self.assertEqual(node.value, "")
+        self.assertEqual(node.props, {"src": "https://www.google.com", "alt": "Hello, World!"})
 
-        
+    def test_text_node_to_html_node_image_no_alt(self):
+        node = text_node_to_html_node(TextNode("", TextType.IMAGE, "https://www.google.com"))
+        self.assertEqual(node.tag, "img")
+        self.assertEqual(node.value, "")
+        self.assertEqual(node.props, {"src": "https://www.google.com", "alt": "Image"})
+       
 
 if __name__ == "__main__":
     unittest.main()
