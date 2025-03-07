@@ -16,7 +16,7 @@ class TestTextNode(unittest.TestCase):
     
     def test_noteq2_type(self):
         node1 = TextNode("Hello, World!", TextType.BOLD)
-        node2 = TextNode("Hello, World!", TextType.NORMAL)
+        node2 = TextNode("Hello, World!", TextType.TEXT)
         self.assertNotEqual(node1, node2)
     
     def test_noteq3_url(self):
@@ -30,7 +30,7 @@ class TestTextNode(unittest.TestCase):
         self.assertNotEqual(node1, node2)
 
     def test_text_node_to_html_node_normal(self):
-        node = text_node_to_html_node(TextNode("Hello, World!", TextType.NORMAL))
+        node = text_node_to_html_node(TextNode("Hello, World!", TextType.TEXT))
         self.assertEqual(node.tag, None)
         self.assertEqual(node.value, "Hello, World!")
         self.assertEqual(node.props, None)
@@ -69,8 +69,7 @@ class TestTextNode(unittest.TestCase):
         node = text_node_to_html_node(TextNode("", TextType.IMAGE, "https://www.google.com"))
         self.assertEqual(node.tag, "img")
         self.assertEqual(node.value, "")
-        self.assertEqual(node.props, {"src": "https://www.google.com", "alt": "Image"})
-       
+        self.assertEqual(node.props, {"src": "https://www.google.com", "alt": "Image"})       
 
 if __name__ == "__main__":
     unittest.main()
