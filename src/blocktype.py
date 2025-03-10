@@ -1,6 +1,8 @@
 import re
 from enum import Enum
 
+from parentnode import ParentNode
+
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
     HEADING = "heading"
@@ -36,3 +38,49 @@ def block_to_block_type(block):
       
     
     return BlockType.PARAGRAPH
+
+def get_raw_content_from_block(blockType, block):
+    if blockType == BlockType.HEADING:
+        return block.strip("#").replace("\n", " ").strip()
+    
+    if blockType == BlockType.CODE:
+        return block.strip("```").strip()
+    
+    if blockType == BlockType.QUOTE:
+        return block.lstrip(">").replace("\n", " ").strip()
+    
+    # multiline blocks
+    lines = block.split("\n")
+    if blockType == BlockType.UNORDERED_LIST:
+        return [line.lstrip("-").strip() for line in lines]
+    
+    if blockType == BlockType.ORDERED_LIST:
+        return [line.lstrip("1234567890.").strip() for line in lines]
+        
+    return block.replace("\n", " ").strip()
+
+def get_parent_node_from_block(blockType, block, children):
+    if blockType == BlockType.HEADING:
+        # determine heading level by counting initial #
+        level = 0
+        while block[level] == "#":
+            level += 1
+        if level > 0 and level <= 6:
+            return ParentNode("h" + str(level), children)
+        else:
+            raise ValueError("Invalid heading level") 
+    
+    if blockType == BlockType.CODE:        
+        return ParentNode("pre", children)
+
+    if blockType == BlockType.QUOTE:
+        return ParentNode("blockquote", children)
+    
+    if blockType == BlockType.UNORDERED_LIST:
+        return ParentNode("ul", children)
+    
+    if blockType == BlockType.ORDERED_LIST:
+        return ParentNode("ol", children)
+    
+    return ParentNode("p", children)
+

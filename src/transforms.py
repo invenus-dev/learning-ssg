@@ -22,7 +22,7 @@ def text_node_to_html_node(text_node):
             alt = "Image"
         if not text_node.url:
             return LeafNode(None, alt)
-        return LeafNode("img", "", {"src": text_node.url, "alt": alt})
+        return LeafNode("img", None, {"src": text_node.url, "alt": alt})
     raise ValueError("Unknown text type")
 
 

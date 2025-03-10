@@ -42,7 +42,7 @@ class TestTransforms(unittest.TestCase):
             TextNode("Hello, World!", TextType.IMAGE, "https://www.google.com")
         )
         self.assertEqual(node.tag, "img")
-        self.assertEqual(node.value, "")
+        self.assertEqual(node.value, None)
         self.assertEqual(
             node.props, {"src": "https://www.google.com", "alt": "Hello, World!"}
         )
@@ -52,7 +52,7 @@ class TestTransforms(unittest.TestCase):
             TextNode("", TextType.IMAGE, "https://www.google.com")
         )
         self.assertEqual(node.tag, "img")
-        self.assertEqual(node.value, "")
+        self.assertEqual(node.value, None)
         self.assertEqual(node.props, {"src": "https://www.google.com", "alt": "Image"})
 
     def test_text_to_textnodes(self):

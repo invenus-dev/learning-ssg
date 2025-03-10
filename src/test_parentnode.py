@@ -53,7 +53,4 @@ class TestParentNode(unittest.TestCase):
             node = ParentNode("", [LeafNode("b", "Bold text")])
             node.to_html()
     
-    def test_handling_faulty_children(self):
-        with self.assertRaises(ValueError):
-            node = ParentNode("p", [LeafNode("div", None)])
-            node.to_html()    
+    
