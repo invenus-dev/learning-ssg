@@ -1,1 +1,1 @@
-python3 src/main.py "/learning_ssg/"
+python3 src/main.py "/learning-ssg/"
