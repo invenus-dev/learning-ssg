@@ -1,4 +1,5 @@
 import re
+import os
 
 from markdown2html import markdown_to_html_node
 
@@ -30,6 +31,10 @@ def generate_page(from_path, template_path, dest_path):
   template_text = template_text.replace('{{ Content }}', html_node.to_html())
 
   # write the generated page to the destination
+  # create directory if not exists
+  dest_dir = '/'.join(dest_path.split('/')[:-1])
+  os.makedirs(dest_dir, exist_ok=True)
+  
   with open(dest_path, 'w') as f:
     f.write(template_text)
   
