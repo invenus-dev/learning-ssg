@@ -1,7 +1,9 @@
-from textnode import TextNode, TextType
+import os
+from dirops import delete_dir_contents, copy_dir
 
-def main():
-    node = TextNode("Hello, World!", TextType.LINK, "https://www.google.com")
-    print(node)
+def main():    
+    delete_dir_contents("public")
+    copy_dir("static", "public")
+    
 
 main()
