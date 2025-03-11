@@ -38,3 +38,16 @@ def generate_page(from_path, template_path, dest_path):
   with open(dest_path, 'w') as f:
     f.write(template_text)
   
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+  """Generate all pages in a directory and its subdirectories"""
+  entries = os.listdir(dir_path_content)
+  for entry in entries:
+    full_path = os.path.join(dir_path_content, entry)
+    if os.path.isdir(full_path):
+      # Recurse into the directory
+      full_dest_path = os.path.join(dest_dir_path, entry)
+      generate_pages_recursive(full_path, template_path, full_dest_path)
+    elif entry.endswith('.md'):
+      # Generate the page
+      dest_path = os.path.join(dest_dir_path, entry.replace('.md', '.html'))      
+      generate_page(full_path, template_path, dest_path)
